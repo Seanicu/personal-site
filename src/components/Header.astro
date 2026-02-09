@@ -1,0 +1,63 @@
+---
+interface Props {
+  lang?: 'zh' | 'en';
+}
+
+const { lang = 'zh' } = Astro.props;
+
+const navItems = lang === 'zh' 
+  ? [
+      { href: '/', label: '首页' },
+      { href: '/blog', label: '博客' },
+      { href: '/about', label: '关于' },
+    ]
+  : [
+      { href: '/en', label: 'Home' },
+      { href: '/en/blog', label: 'Blog' },
+      { href: '/en/about', label: 'About' },
+    ];
+
+const siteName = lang === 'zh' ? 'Xerox 的个人博客' : "Xerox's Blog";
+const currentPath = Astro.url.pathname;
+---
+
+<header class="bg-white shadow-sm sticky top-0 z-50">
+  <nav class="container-custom py-4">
+    <div class="flex items-center justify-between">
+      <!-- 网站标题 -->
+      <a href={lang === 'zh' ? '/' : '/en'} class="text-xl font-bold text-gray-900 hover:text-blue-600 no-underline">
+        {siteName}
+      </a>
+      
+      <!-- 导航链接 -->
+      <ul class="flex items-center space-x-6">
+        {navItems.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class:list={[
+                'font-medium transition-colors no-underline',
+                currentPath === item.href
+                  ? 'text-blue-600'
+                  : 'text-gray-600 hover:text-gray-900'
+              ]}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+        
+        <!-- 语言切换器占位 -->
+        <li>
+          <a
+            href={lang === 'zh' ? '/en' : '/'}
+            class="text-gray-600 hover:text-gray-900 font-medium transition-colors no-underline"
+            title={lang === 'zh' ? 'Switch to English' : '切换到中文'}
+          >
+            {lang === 'zh' ? 'EN' : '中文'}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
