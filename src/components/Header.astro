@@ -18,37 +18,40 @@ const siteName = lang === 'zh' ? 'Xanoto的语言空间' : 'Xiandu Blog';
 const currentPath = Astro.url.pathname;
 ---
 
-<header class="bg-white shadow-sm sticky top-0 z-50">
-  <nav class="container-custom py-4">
+<header class="bg-paper border-b border-ink/10 sticky top-0 z-50">
+  <nav class="container-custom py-6">
     <div class="flex items-center justify-between">
       <!-- 网站标题 -->
-      <a href={lang === 'zh' ? '/' : '/en'} class="text-xl font-bold text-gray-900 hover:text-blue-600 no-underline">
+      <a 
+        href={lang === 'zh' ? '/' : '/en'} 
+        class="text-heading-md text-ink font-bold no-underline hover:bg-accent hover:text-white px-3 py-1"
+        style="transition: none;"
+      >
         {siteName}
       </a>
       
       <!-- 导航链接 -->
-      <ul class="flex items-center space-x-6">
+      <ul class="flex items-center space-x-2">
         {navItems.map((item) => (
           <li>
             <a
               href={item.href}
+              class="px-4 py-2 text-body font-medium text-ink no-underline hover:bg-accent hover:text-white"
               class:list={[
-                'font-medium transition-colors no-underline',
-                currentPath === item.href
-                  ? 'text-blue-600'
-                  : 'text-gray-600 hover:text-gray-900'
+                currentPath === item.href && 'underline decoration-accent'
               ]}
+              style="transition: none;"
             >
               {item.label}
             </a>
           </li>
         ))}
         <li>
-
           <a
             href={lang === 'zh' ? '/en' : '/'}
-            class="text-gray-600 hover:text-gray-900 font-medium transition-colors no-underline"
+            class="px-4 py-2 text-body font-medium text-ink no-underline hover:bg-accent hover:text-white"
             title={lang === 'zh' ? 'Switch to English' : '切换到中文'}
+            style="transition: none;"
           >
             {lang === 'zh' ? 'EN' : '中文'}
           </a>

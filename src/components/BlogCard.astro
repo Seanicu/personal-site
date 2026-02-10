@@ -25,26 +25,30 @@ const postUrl = lang === 'zh'
   : `/en/blog/${slug.replace(/^en\//, '')}`;
 ---
 
-<article class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-  <a href={postUrl} class="block p-6">
-    <h2 class="text-2xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
-      {title}
-    </h2>
-    
-    <p class="text-gray-600 mb-4 line-clamp-3">
-      {description}
-    </p>
-    
-    <div class="flex items-center justify-between text-sm">
-      <time class="text-gray-500" datetime={date.toISOString()}>
+<article class="border-b border-ink/10 pb-12">
+  <a 
+    href={postUrl} 
+    class="block p-6 -mx-6 group"
+    style="transition: none;"
+  >
+    <div class="group-hover:bg-accent group-hover:text-white" style="transition: none;">
+      <time class="text-label text-ink-light group-hover:text-white/80 block mb-3" datetime={date.toISOString()} style="transition: none;">
         {formattedDate}
       </time>
       
+      <h2 class="text-heading-md text-ink group-hover:text-white mb-4" style="transition: none;">
+        {title}
+      </h2>
+      
+      <p class="text-body text-ink-light group-hover:text-white/90 mb-4 leading-relaxed" style="transition: none;">
+        {description}
+      </p>
+      
       {tags && tags.length > 0 && (
-        <div class="flex gap-2 flex-wrap">
+        <div class="flex gap-3 flex-wrap">
           {tags.map((tag: string) => (
-            <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs">
-              {tag}
+            <span class="text-label text-ink-light group-hover:text-white/80 font-medium" style="transition: none;">
+              #{tag}
             </span>
           ))}
         </div>
