@@ -1,0 +1,71 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import BlogCard from '../../components/BlogCard.astro';
+
+const title = 'Language Space';
+const description = "Noto's Blog";
+
+// Get all English blog posts
+const allPosts = await getCollection('blog', ({ data }) => {
+  return data.lang === 'en' && !data.draft;
+});
+
+// Sort by date and get the latest 3 posts
+const latestPosts = allPosts
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+---
+
+<BaseLayout title={title} description={description} lang="en">
+  <Header lang="en" />
+  
+  <main class="container-custom py-12">
+    <!-- Hero Section -->
+    <section class="text-center py-16">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+        Language Space
+      </h1>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+        Language is a tool for thinking
+      </p>
+    </section>
+
+    <!-- Latest Posts Section -->
+    <section class="py-8">
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="text-3xl font-bold text-gray-900">Latest Posts</h2>
+        <a href="/en/blog" class="text-blue-600 hover:text-blue-700 font-medium">
+          View All →
+        </a>
+      </div>
+      
+      {latestPosts.length > 0 ? (
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {latestPosts.map((post) => (
+            <BlogCard post={post} lang="en" />
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-12">
+          <p class="text-gray-600">No posts yet</p>
+        </div>
+      )}
+    </section>
+
+    <!-- About Section -->
+    <section class="py-8 mt-12">
+      <div class="bg-gray-50 rounded-xl p-8">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">About This Blog</h2>
+        <p class="text-gray-600 leading-relaxed">
+          Welcome to my blog where I share thoughts on web development, technology, and programming.
+          Explore articles about modern web frameworks, best practices, and the latest trends in software development.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <Footer lang="en" />
+</BaseLayout>

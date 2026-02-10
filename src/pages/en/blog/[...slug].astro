@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import BlogPostLayout from '../../../layouts/BlogPostLayout.astro';
+
+export const getStaticPaths = (async () => {
+  const posts = await getCollection('blog', ({ data }) => {
+    return data.lang === 'en' && !data.draft;
+  });
+
+  return posts.map((post) => {
+    // Extract the slug without the 'en/' prefix
+    const slug = post.slug.replace(/^en\//, '');
+    return {
+      params: { slug },
+      props: { post },
+    };
+  });
+}) satisfies GetStaticPaths;
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+const { title, description, date, tags, translationKey } = post.data;
+---
+
+<BlogPostLayout 
+  title={title} 
+  description={description} 
+  date={date} 
+  tags={tags}
+  lang="en"
+  translationKey={translationKey}
+>
+  <Content />
+</BlogPostLayout>
