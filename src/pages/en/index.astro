@@ -24,43 +24,43 @@ const latestPosts = allPosts
   
   <main class="container-custom py-18">
     <!-- Hero Section - Asymmetric Layout -->
-    <section class="grid lg:grid-cols-[25%_75%] gap-12 mb-30">
+    <section class="grid lg:grid-cols-[25%_75%] gap-12 mb-16">
       <div class="lg:text-right">
-        <h2 class="text-heading-md text-ink-light">About this blog</h2>
+        <h2 class="text-body-lg text-ink-light">About this blog</h2>
       </div>
       <div>
-        <h1 class="text-hero text-ink mb-8">
+        <p class="text-body-lg text-ink-light mb-8">
           Language is a tool for thinking
-        </h1>
-        <p class="text-body-lg text-ink-light max-w-3xl">
-          Recording thoughts about language, programming, and reflection.
         </p>
+        <!-- <p class="text-body-lg text-ink-light max-w-3xl">
+          Recording thoughts about language, programming, and reflection.
+        </p> -->
       </div>
     </section>
 
     <!-- Latest Posts Section - Asymmetric Layout -->
     <section class="grid lg:grid-cols-[25%_75%] gap-12">
-      <div class="lg:text-right">
-        <h2 class="text-heading-md text-ink-light sticky top-24">Blog posts</h2>
+      <div class="lg:text-right pt-6">
+        <h2 class="text-body-lg text-ink-light sticky top-24">Blog posts</h2>
       </div>
       
       <div>
         {latestPosts.length > 0 ? (
-          <div class="space-y-12">
+          <div class="space-y-6">
             {latestPosts.map((post) => (
               <BlogCard post={post} lang="en" />
             ))}
           </div>
         ) : (
           <div class="text-center py-12">
-            <p class="text-ink-light">No posts yet</p>
+            <p class="text-body-lg text-ink-light">No posts yet</p>
           </div>
         )}
 
         <div class="mt-12">
           <a
             href="/en/blog"
-            class="inline-block px-8 py-3 text-body font-medium text-ink underline decoration-accent hover:bg-accent hover:text-white hover:no-underline"
+            class="inline-block px-8 py-3 text-body-lg font-medium text-ink underline decoration-accent hover:bg-accent hover:text-white hover:no-underline"
             style="transition: none;"
           >
             View all posts →

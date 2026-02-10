@@ -25,34 +25,33 @@ const postUrl = lang === 'zh'
   : `/en/blog/${slug.replace(/^en\//, '')}`;
 ---
 
-<article class="border-b border-ink/10 pb-12">
+<article class="border-b border-ink/10 pb-6">
   <a 
     href={postUrl} 
-    class="block p-6 -mx-6 group"
+    class="block p-6 -mx-6 group no-underline"
     style="transition: none;"
   >
     <div class="group-hover:bg-accent group-hover:text-white" style="transition: none;">
-      <time class="text-label text-ink-light group-hover:text-white/80 block mb-3" datetime={date.toISOString()} style="transition: none;">
-        {formattedDate}
-      </time>
-      
-      <h2 class="text-heading-md text-ink group-hover:text-white mb-4" style="transition: none;">
+      <h2 class="text-body-lg text-ink group-hover:text-white mb-2" style="transition: none;">
         {title}
       </h2>
       
-      <p class="text-body text-ink-light group-hover:text-white/90 mb-4 leading-relaxed" style="transition: none;">
+      <p class="text-body text-ink-light group-hover:text-white/90 mb-2 leading-relaxed" style="transition: none;">
         {description}
       </p>
       
-      {tags && tags.length > 0 && (
-        <div class="flex gap-3 flex-wrap">
-          {tags.map((tag: string) => (
+      <div class="flex items-center gap-3 flex-wrap">
+        <time class="text-label text-ink-light group-hover:text-white/80" datetime={date.toISOString()} style="transition: none;">
+          {formattedDate}
+        </time>
+        {tags && tags.length > 0 && (
+          tags.map((tag: string) => (
             <span class="text-label text-ink-light group-hover:text-white/80 font-medium" style="transition: none;">
               #{tag}
             </span>
-          ))}
-        </div>
-      )}
+          ))
+        )}
+      </div>
     </div>
   </a>
 </article>

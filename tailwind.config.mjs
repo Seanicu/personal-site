@@ -6,8 +6,8 @@ export default {
       colors: {
         // 纸张感背景色系统
         paper: {
-          DEFAULT: '#F5F5F0',
-          warm: '#F2F2EB',
+          DEFAULT: '#f2f3ee',
+          warm: '#f2f2EB',
         },
         // 非纯黑文字色
         ink: {
@@ -16,8 +16,8 @@ export default {
         },
         // 橙色交互强调色
         accent: {
-          DEFAULT: '#FF4500',
-          hover: '#FF5722',
+          DEFAULT: '#a45a44',
+          hover: '#f76a3f',
         },
       },
       // 衬线字体系统
@@ -39,7 +39,7 @@ export default {
         'hero': ['64px', { lineHeight: '1.1', fontWeight: '700' }],
         'post-title': ['48px', { lineHeight: '1.2', fontWeight: '700' }],
         'heading-lg': ['32px', { lineHeight: '1.3', fontWeight: '700' }],
-        'heading-md': ['28px', { lineHeight: '1.4', fontWeight: '600' }],
+        'heading-md': ['24px', { lineHeight: '1.4', fontWeight: '600' }],
         'body-lg': ['20px', { lineHeight: '1.8' }],
         'body': ['18px', { lineHeight: '1.8' }],
         'label': ['14px', { lineHeight: '1.5' }],

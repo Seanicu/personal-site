@@ -41,7 +41,7 @@ const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueO
       <div></div>
       <div>
         {posts.length > 0 ? (
-          <div class="space-y-12">
+          <div class="space-y-6">
             {posts.map((post) => (
               <BlogCard post={post} />
             ))}
