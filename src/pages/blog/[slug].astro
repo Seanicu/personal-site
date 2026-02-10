@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
+
+export const getStaticPaths = (async () => {
+  const posts = await getCollection('blog', ({ data }) => {
+    return data.lang === 'zh' && !data.draft;
+  });
+
+  return posts.map((post) => {
+    // 从 slug 中移除 'zh/' 或 'en/' 前缀
+    const slug = post.slug.replace(/^(zh|en)\//, '');
+    return {
+      params: { slug },
+      props: { post },
+    };
+  });
+}) satisfies GetStaticPaths;
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+const { title, description, date, tags } = post.data;
+---
+
+<BlogPostLayout title={title} description={description} date={date} tags={tags}>
+  <Content />
+</BlogPostLayout>

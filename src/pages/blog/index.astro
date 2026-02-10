@@ -1,0 +1,49 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import BlogCard from '../../components/BlogCard.astro';
+
+const title = '博客 | Xerox 的个人博客';
+const description = '阅读我的所有技术文章和思考';
+
+// 获取所有中文博客文章
+const allPosts = await getCollection('blog', ({ data }) => {
+  return data.lang === 'zh' && !data.draft;
+});
+
+// 按日期排序
+const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout title={title} description={description} lang="zh">
+  <Header lang="zh" />
+  
+  <main class="container-custom py-12">
+    <!-- 页面标题 -->
+    <header class="mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+        博客文章
+      </h1>
+      <p class="text-xl text-gray-600">
+        共 {posts.length} 篇文章
+      </p>
+    </header>
+
+    <!-- 文章列表 -->
+    {posts.length > 0 ? (
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {posts.map((post) => (
+          <BlogCard post={post} />
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-12">
+        <p class="text-gray-600">暂无文章</p>
+      </div>
+    )}
+  </main>
+
+  <Footer lang="zh" />
+</BaseLayout>
