@@ -5,8 +5,8 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import BlogCard from '../../components/BlogCard.astro';
 
-const title = 'Language Space';
-const description = "Noto's Blog";
+const title = 'Xiandu Blog';
+const description = 'Xanoto\'s Language Space';
 
 // Get all English blog posts
 const allPosts = await getCollection('blog', ({ data }) => {
@@ -26,7 +26,7 @@ const latestPosts = allPosts
     <!-- Hero Section -->
     <section class="text-center py-16">
       <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-        Language Space
+        Xiandu Blog
       </h1>
       <p class="text-xl text-gray-600 max-w-2xl mx-auto">
         Language is a tool for thinking
@@ -38,7 +38,7 @@ const latestPosts = allPosts
       <div class="flex items-center justify-between mb-8">
         <h2 class="text-3xl font-bold text-gray-900">Latest Posts</h2>
         <a href="/en/blog" class="text-blue-600 hover:text-blue-700 font-medium">
-          View All →
+          View All
         </a>
       </div>
       

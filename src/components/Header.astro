@@ -1,6 +1,5 @@
 ---
 import { useTranslations } from '../i18n/utils';
-import LanguageSwitcher from './LanguageSwitcher.astro';
 
 interface Props {
   lang?: 'zh' | 'en';
@@ -15,7 +14,7 @@ const navItems = [
   { href: `${baseUrl}/blog`, label: t('nav.blog') },
 ];
 
-const siteName = lang === 'zh' ? 'Noto 的博客' : "Noto's Blog";
+const siteName = lang === 'zh' ? 'Xanoto的语言空间' : 'Xiandu Blog';
 const currentPath = Astro.url.pathname;
 ---
 
@@ -45,12 +44,7 @@ const currentPath = Astro.url.pathname;
           </li>
         ))}
         <li>
-          <LanguageSwitcher 
-            currentLang={lang} 
-            currentPath={currentPath}
-          />
-        </li>
-        <li>
+
           <a
             href={lang === 'zh' ? '/en' : '/'}
             class="text-gray-600 hover:text-gray-900 font-medium transition-colors no-underline"
