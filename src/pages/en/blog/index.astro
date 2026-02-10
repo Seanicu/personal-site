@@ -20,29 +20,39 @@ const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueO
 <BaseLayout title={title} description={description} lang="en">
   <Header lang="en" />
   
-  <main class="container-custom py-12">
-    <!-- Page Title -->
-    <header class="mb-12">
-      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-        Blog Posts
-      </h1>
-      <p class="text-xl text-gray-600">
-        {posts.length} {posts.length === 1 ? 'post' : 'posts'} in total
-      </p>
-    </header>
+  <main class="container-custom py-18">
+    <!-- Page Title - Asymmetric Layout -->
+    <section class="grid lg:grid-cols-[25%_75%] gap-12 mb-30">
+      <div class="lg:text-right">
+        <h2 class="text-heading-md text-ink-light sticky top-24">All posts</h2>
+      </div>
+      <div>
+        <h1 class="text-hero text-ink mb-6">
+          Blog Posts
+        </h1>
+        <p class="text-body-lg text-ink-light">
+          {posts.length} {posts.length === 1 ? 'post' : 'posts'} in total
+        </p>
+      </div>
+    </section>
 
     <!-- Posts List -->
-    {posts.length > 0 ? (
-      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {posts.map((post) => (
-          <BlogCard post={post} lang="en" />
-        ))}
+    <section class="grid lg:grid-cols-[25%_75%] gap-12">
+      <div></div>
+      <div>
+        {posts.length > 0 ? (
+          <div class="space-y-12">
+            {posts.map((post) => (
+              <BlogCard post={post} lang="en" />
+            ))}
+          </div>
+        ) : (
+          <div class="text-center py-12">
+            <p class="text-ink-light">No posts yet</p>
+          </div>
+        )}
       </div>
-    ) : (
-      <div class="text-center py-12">
-        <p class="text-gray-600">No posts yet</p>
-      </div>
-    )}
+    </section>
   </main>
 
   <Footer lang="en" />
