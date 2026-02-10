@@ -1,0 +1,63 @@
+---
+import { languages } from '../i18n/ui';
+
+interface Props {
+  currentLang: string;
+  currentPath: string;
+  translationKey?: string;
+}
+
+const { currentLang, currentPath, translationKey } = Astro.props;
+
+// Function to generate the alternate language URL
+function getAlternateUrl(targetLang: string): string {
+  // If we're on the home page
+  if (currentPath === '/' || currentPath === '') {
+    return targetLang === 'zh' ? '/' : `/${targetLang}`;
+  }
+  
+  // If we have a translation key (for blog posts)
+  if (translationKey) {
+    const blogPath = `blog/${translationKey}`;
+    return targetLang === 'zh' ? `/${blogPath}` : `/${targetLang}/${blogPath}`;
+  }
+  
+  // For other pages, construct the URL based on the current path
+  // Remove language prefix if it exists
+  let cleanPath = currentPath.replace(/^\/(zh|en)\//, '');
+  cleanPath = cleanPath.replace(/^\//, '');
+  
+  if (targetLang === 'zh') {
+    return cleanPath ? `/${cleanPath}` : '/';
+  } else {
+    return cleanPath ? `/${targetLang}/${cleanPath}` : `/${targetLang}`;
+  }
+}
+
+const otherLanguages = Object.entries(languages).filter(([lang]) => lang !== currentLang);
+---
+
+<div class="language-switcher relative inline-block">
+  {otherLanguages.map(([lang, label]) => (
+    <a
+      href={getAlternateUrl(lang)}
+      class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors"
+      aria-label={`Switch to ${label}`}
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+      </svg>
+      <span>{label}</span>
+    </a>
+  ))}
+</div>
+
+<style>
+  .language-switcher a {
+    border-radius: 0.375rem;
+  }
+  
+  .language-switcher a:hover {
+    background-color: rgba(59, 130, 246, 0.1);
+  }
+</style>
