@@ -5,8 +5,8 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import BlogCard from '../components/BlogCard.astro';
 
-const title = 'Xerox 的个人博客';
-const description = '欢迎来到我的个人博客，分享技术、思考和生活。';
+const title = '语言空间';
+const description = 'Noto 的博客';
 
 // 获取所有中文博客文章
 const allPosts = await getCollection('blog', ({ data }) => {
@@ -26,10 +26,10 @@ const latestPosts = allPosts
     <!-- Hero Section -->
     <section class="text-center py-16">
       <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-        欢迎来到我的博客
+        语言空间
       </h1>
       <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-        分享技术、思考和生活
+        语言是思维的工具
       </p>
     </section>
 
