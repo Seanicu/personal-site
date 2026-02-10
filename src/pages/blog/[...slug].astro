@@ -9,10 +9,9 @@ export const getStaticPaths = (async () => {
   });
 
   return posts.map((post) => {
-    // 从 slug 中移除 'zh/' 或 'en/' 前缀
-    const slug = post.slug.replace(/^(zh|en)\//, '');
+    // 保留完整的 slug，包括语言前缀
     return {
-      params: { slug },
+      params: { slug: post.slug },
       props: { post },
     };
   });
@@ -20,9 +19,16 @@ export const getStaticPaths = (async () => {
 
 const { post } = Astro.props;
 const { Content } = await post.render();
-const { title, description, date, tags } = post.data;
+const { title, description, date, tags, translationKey } = post.data;
 ---
 
-<BlogPostLayout title={title} description={description} date={date} tags={tags}>
+<BlogPostLayout 
+  title={title} 
+  description={description} 
+  date={date} 
+  tags={tags}
+  lang="zh"
+  translationKey={translationKey}
+>
   <Content />
 </BlogPostLayout>
