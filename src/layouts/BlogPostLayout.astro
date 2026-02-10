@@ -1,17 +1,38 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { useTranslations } from '../i18n/utils';
 
-const { title, description, date, tags } = Astro.props;
+interface Props {
+  title: string;
+  description: string;
+  date: Date;
+  tags?: string[];
+  lang?: 'zh' | 'en';
+  translationKey?: string;
+}
+
+const { title, description, date, tags, lang = 'zh', translationKey } = Astro.props;
+const t = useTranslations(lang);
 
 // 格式化日期
-const formattedDate = new Date(date).toLocaleDateString('zh-CN', {
+const locale = lang === 'zh' ? 'zh-CN' : 'en-US';
+const formattedDate = new Date(date).toLocaleDateString(locale, {
   year: 'numeric',
   month: 'long',
   day: 'numeric'
 });
+
+// 构建返回链接
+const blogListUrl = lang === 'zh' ? '/blog' : '/en/blog';
+const backToListText = lang === 'zh' ? '返回博客列表' : 'Back to Blog';
+const publishedText = t('blog.published');
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} lang={lang}>
+  <Header lang={lang} />
+  
   <article class="max-w-4xl mx-auto px-4 py-12">
     <!-- 文章头部 -->
     <header class="mb-8 pb-8 border-b border-gray-200">
@@ -21,7 +42,7 @@ const formattedDate = new Date(date).toLocaleDateString('zh-CN', {
       
       <div class="flex items-center gap-4 text-gray-600 mb-4">
         <time datetime={date.toISOString()}>
-          发布于 {formattedDate}
+          {publishedText} {formattedDate}
         </time>
       </div>
       
@@ -56,12 +77,14 @@ const formattedDate = new Date(date).toLocaleDateString('zh-CN', {
     
     <!-- 返回链接 -->
     <div class="mt-12 pt-8 border-t border-gray-200">
-      <a href="/blog" class="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium">
+      <a href={blogListUrl} class="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium">
         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
         </svg>
-        返回博客列表
+        {backToListText}
       </a>
     </div>
   </article>
+  
+  <Footer lang={lang} />
 </BaseLayout>
