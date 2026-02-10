@@ -8,7 +8,15 @@ export default defineConfig({
   site: 'https://yourdomain.com',
   integrations: [
     tailwind(),
-    sitemap(),
+    sitemap({
+      i18n: {
+        defaultLocale: 'zh',
+        locales: {
+          zh: 'zh-CN',
+          en: 'en-US',
+        },
+      },
+    }),
   ],
   output: 'static',
   compressHTML: true,
