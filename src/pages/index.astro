@@ -1,10 +1,22 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import BlogCard from '../components/BlogCard.astro';
 
 const title = 'Xerox 的个人博客';
 const description = '欢迎来到我的个人博客，分享技术、思考和生活。';
+
+// 获取所有中文博客文章
+const allPosts = await getCollection('blog', ({ data }) => {
+  return data.lang === 'zh' && !data.draft;
+});
+
+// 按日期排序并取最新的 3 篇
+const latestPosts = allPosts
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
 ---
 
 <BaseLayout title={title} description={description} lang="zh">
@@ -23,10 +35,24 @@ const description = '欢迎来到我的个人博客，分享技术、思考和�
 
     <!-- 最新文章部分 -->
     <section class="py-8">
-      <h2 class="text-3xl font-bold text-gray-900 mb-8">最新文章</h2>
-      <div class="text-gray-600">
-        文章列表即将推出...
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="text-3xl font-bold text-gray-900">最新文章</h2>
+        <a href="/blog" class="text-blue-600 hover:text-blue-700 font-medium">
+          查看全部 →
+        </a>
       </div>
+      
+      {latestPosts.length > 0 ? (
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {latestPosts.map((post) => (
+            <BlogCard post={post} />
+          ))}
+        </div>
+      ) : (
+        <div class="text-gray-600">
+          暂无文章
+        </div>
+      )}
     </section>
   </main>
 
