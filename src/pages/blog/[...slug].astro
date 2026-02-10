@@ -9,9 +9,10 @@ export const getStaticPaths = (async () => {
   });
 
   return posts.map((post) => {
-    // 保留完整的 slug，包括语言前缀
+    // 移除 'zh/' 前缀，因为中文是默认语言
+    const slug = post.slug.replace(/^zh\//, '');
     return {
-      params: { slug: post.slug },
+      params: { slug },
       props: { post },
     };
   });
