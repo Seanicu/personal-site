@@ -1,18 +1,32 @@
 ---
-const { post } = Astro.props;
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+  post: any;
+  lang?: 'zh' | 'en';
+}
+
+const { post, lang = 'zh' } = Astro.props;
+const t = useTranslations(lang);
 const { title, description, date, tags } = post.data;
 const slug = post.slug;
 
 // 格式化日期
-const formattedDate = new Date(date).toLocaleDateString('zh-CN', {
+const locale = lang === 'zh' ? 'zh-CN' : 'en-US';
+const formattedDate = new Date(date).toLocaleDateString(locale, {
   year: 'numeric',
   month: 'long',
   day: 'numeric'
 });
+
+// 构建文章链接
+const postUrl = lang === 'zh' 
+  ? `/blog/${slug.replace(/^zh\//, '')}` 
+  : `/en/blog/${slug.replace(/^en\//, '')}`;
 ---
 
 <article class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-  <a href={`/blog/${slug}`} class="block p-6">
+  <a href={postUrl} class="block p-6">
     <h2 class="text-2xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
       {title}
     </h2>
