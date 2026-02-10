@@ -28,9 +28,42 @@ const formattedDate = new Date(date).toLocaleDateString(locale, {
 const blogListUrl = lang === 'zh' ? '/blog' : '/en/blog';
 const backToListText = lang === 'zh' ? '返回博客列表' : 'Back to Blog';
 const publishedText = t('blog.published');
+
+// JSON-LD 结构化数据 (Schema.org BlogPosting)
+const authorName = lang === 'zh' ? '语言空间' : 'Language Space';
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description: description,
+  datePublished: date.toISOString(),
+  dateModified: date.toISOString(),
+  author: {
+    '@type': 'Person',
+    name: authorName,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: authorName,
+    logo: {
+      '@type': 'ImageObject',
+      url: new URL('/favicon.ico', Astro.site).toString(),
+    },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': canonicalURL.toString(),
+  },
+  keywords: tags?.join(', '),
+  inLanguage: lang === 'zh' ? 'zh-CN' : 'en-US',
+};
 ---
 
-<BaseLayout title={title} description={description} lang={lang}>
+<BaseLayout title={title} description={description} lang={lang} keywords={tags?.join(', ')}>
+  <!-- JSON-LD 结构化数据 -->
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline slot="head" />
+  
   <Header lang={lang} />
   
   <article class="max-w-4xl mx-auto px-4 py-12">

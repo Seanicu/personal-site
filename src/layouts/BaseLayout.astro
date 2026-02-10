@@ -6,17 +6,25 @@ interface Props {
   description: string;
   lang?: 'zh' | 'en';
   ogImage?: string;
+  keywords?: string;
 }
 
 const {
   title,
   description,
   lang = 'zh',
-  ogImage = '/og-image.jpg',
+  ogImage = '/og-image.svg',
+  keywords,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const siteName = '语言空间';
+const siteName = lang === 'zh' ? '语言空间' : 'Language Space';
+
+// 构建中英文 URL 用于 hreflang
+const currentPath = Astro.url.pathname;
+const zhURL = new URL(currentPath.startsWith('/en/') ? currentPath.replace('/en/', '/') : currentPath, Astro.site);
+const enURL = new URL(currentPath.startsWith('/en/') ? currentPath : `/en${currentPath}`, Astro.site);
+const absoluteOgImage = new URL(ogImage, Astro.site);
 ---
 
 <!doctype html>
@@ -27,30 +35,43 @@ const siteName = '语言空间';
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="canonical" href={canonicalURL} />
     
+    <!-- Sitemap -->
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    
     <!-- 基础 SEO -->
     <title>{title}</title>
     <meta name="description" content={description} />
+    {keywords && <meta name="keywords" content={keywords} />}
     <meta name="generator" content={Astro.generator} />
+    <meta name="author" content={siteName} />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(ogImage, Astro.site)} />
+    <meta property="og:image" content={absoluteOgImage} />
+    <meta property="og:image:alt" content={title} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:site_name" content={siteName} />
+    <meta property="og:locale" content={lang === 'zh' ? 'zh_CN' : 'en_US'} />
     
-    <!-- Twitter -->
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content={canonicalURL} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />
+    <meta name="twitter:image" content={absoluteOgImage} />
+    <meta name="twitter:image:alt" content={title} />
     
-    <!-- 多语言 SEO -->
-    <link rel="alternate" hreflang="zh" href={Astro.site} />
-    <link rel="alternate" hreflang="en" href={new URL('/en/', Astro.site)} />
-    <link rel="alternate" hreflang="x-default" href={Astro.site} />
+    <!-- 多语言 SEO (hreflang) -->
+    <link rel="alternate" hreflang="zh-CN" href={zhURL} />
+    <link rel="alternate" hreflang="en" href={enURL} />
+    <link rel="alternate" hreflang="x-default" href={zhURL} />
+    
+    <!-- 额外的 head 内容 (例如 JSON-LD) -->
+    <slot name="head" />
   </head>
   <body>
     <slot />
