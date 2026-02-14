@@ -305,7 +305,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://yourdomain.com',
+  site: 'https://xanoto.site',
   integrations: [sitemap()],
 });
 ```
@@ -396,8 +396,8 @@ Article content...
 ### 自定义域名
 
 ```
-yourdomain.com    → 中文版
-yourdomain.com/en → 英文版
+xanoto.site    → 中文版
+xanoto.site/en → 英文版
 ```
 
 ---
