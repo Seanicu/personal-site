@@ -27,9 +27,9 @@ const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueO
         <h2 class="text-heading-md text-ink-light sticky top-24">All posts</h2>
       </div>
       <div>
-        <h1 class="text-hero text-ink mb-6">
+        <!-- <h1 class="text-hero text-ink mb-6">
           Blog Posts
-        </h1>
+        </h1> -->
         <p class="text-body-lg text-ink-light">
           {posts.length} {posts.length === 1 ? 'post' : 'posts'} in total
         </p>
@@ -47,7 +47,7 @@ const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueO
             ))}
           </div>
         ) : (
-          <div class="text-center py-12">
+          <div class="py-12">
             <p class="text-ink-light">No posts yet</p>
           </div>
         )}
