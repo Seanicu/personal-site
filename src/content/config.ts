@@ -10,6 +10,7 @@ const blogCollection = defineCollection({
     draft: z.boolean().default(false),
     lang: z.enum(['zh', 'en']),
     translationKey: z.string(), // 关联中英文文章
+    slug: z.string().optional(), // 自定义 URL slug
   }),
 });
 

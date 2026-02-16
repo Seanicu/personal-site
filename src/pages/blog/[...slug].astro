@@ -9,8 +9,8 @@ export const getStaticPaths = (async () => {
   });
 
   return posts.map((post) => {
-    // 移除 'zh/' 前缀，因为中文是默认语言
-    const slug = post.slug.replace(/^zh\//, '');
+    // 优先使用 frontmatter 中的 slug，否则使用文件名
+    const slug = post.data.slug || post.slug.replace(/^zh\//, '');
     return {
       params: { slug },
       props: { post },
