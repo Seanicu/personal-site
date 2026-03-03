@@ -4,21 +4,38 @@ import type { GetStaticPaths } from 'astro';
 import BlogPostLayout from '../../../layouts/BlogPostLayout.astro';
 
 export const getStaticPaths = (async () => {
-  const posts = await getCollection('blog', ({ data }) => {
+  const allPosts = await getCollection('blog', ({ data }) => {
     return data.lang === 'en' && !data.draft;
   });
 
-  return posts.map((post) => {
+  // 按日期升序排列（旧→新）
+  allPosts.sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+
+  return allPosts.map((post, index) => {
     // 优先使用 frontmatter 中的 slug，否则使用文件名
     const slug = post.data.slug || post.slug.replace(/^en\//, '');
+
+    const prevPost = index > 0 ? allPosts[index - 1] : null;
+    const nextPost = index < allPosts.length - 1 ? allPosts[index + 1] : null;
+
     return {
       params: { slug },
-      props: { post },
+      props: {
+        post,
+        prevPost: prevPost ? {
+          title: prevPost.data.title,
+          slug: prevPost.data.slug || prevPost.slug.replace(/^en\//, ''),
+        } : null,
+        nextPost: nextPost ? {
+          title: nextPost.data.title,
+          slug: nextPost.data.slug || nextPost.slug.replace(/^en\//, ''),
+        } : null,
+      },
     };
   });
 }) satisfies GetStaticPaths;
 
-const { post } = Astro.props;
+const { post, prevPost, nextPost } = Astro.props;
 const { Content } = await post.render();
 const { title, description, date, tags, translationKey } = post.data;
 ---
@@ -30,6 +47,8 @@ const { title, description, date, tags, translationKey } = post.data;
   tags={tags}
   lang="en"
   translationKey={translationKey}
+  prevPost={prevPost}
+  nextPost={nextPost}
 >
   <Content />
 </BlogPostLayout>
